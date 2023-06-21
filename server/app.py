@@ -23,7 +23,25 @@ def animal_by_id(id):
 
 @app.route('/zookeeper/<int:id>')
 def zookeeper_by_id(id):
-    return ''
+    animal=Animal.query.filter(Animal.id== id).first()
+    if animal is None:
+
+        return 'animal not found'
+    zookeeper = animal.zookeeper
+    enclosure = animal.enclosure
+    
+    response_body = f'''
+    <ul>ID: {animal.id}</ul>
+    <ul>Name: {animal.name}</ul>
+    <ul>Species: {animal.species}</ul>
+    <ul>Zookeeper: {zookeeper.name}</ul>
+    <ul>Enclosure: {enclosure.environment}</ul>
+    '''
+    response= make_response(response_body,200)
+    
+    
+    
+    return response
 
 @app.route('/enclosure/<int:id>')
 def enclosure_by_id(id):
